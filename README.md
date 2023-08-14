@@ -1,23 +1,31 @@
 # ECG Classification using Deep Learning
 
-This repository contains a refactored version of the original implementation by Between_a_ROC_and_a_heart_place, which was designed for the PhysioNet/Computing in Cardiology Challenge 2020. The related paper was titled "Adaptive Lead Weighted ResNet Trained With Different Duration Signals for Classifying 12-lead ECGs". The original repository can be found [here](original_repository_link).
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python Version](https://img.shields.io/badge/python-3.10.4-blue)](https://www.python.org/downloads/release/python-3104/)
+
+Repository for ECG classification using deep learning techniques. This project aims to classify 12-lead ECG signals using the ResNet model architecture. The original model was designed for the PhysioNet/Computing in Cardiology Challenge 2020.
+
+**Note:** This is a refactored version of the original implementation by Between_a_ROC_and_a_heart_place. The original repository can be found [here](original_repository_link).
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Usage](#usage)
+  - [Installation](#installation)
+  - [Data Handling](#data-handling)
+  - [Preprocessing](#preprocessing)
+- [Repository Structure](#repository-structure)
+- [License](#license)
+
+## Introduction
+
+The aim of this project is to provide a comprehensive framework for training, evaluating, and testing a deep learning model for ECG signal classification. The ResNet model is utilized for its effectiveness in handling sequential data and its performance in the context of ECG classification.
 
 ## Usage
 
-To get started, follow these steps:
+### Installation
 
-1. Install the required Python packages from the `requirements.txt` file:
+To set up the environment and install the required packages, run the following command:
 
-   ```bash
-   pip install -r requirements.txt
-
-Note: Recommended Python version is 3.10.4 (tested with Python 3.10.4).
-
-
-Data handling: Check out the notebook Introduction to data handling in the notebooks directory for more information on downloading, preprocessing, and splitting data.
-
-Preprocessing: If you want to preprocess data, you can use the preprocess_data.py script. This step is optional but may impact training speed. To preprocess the data, use:
-python preprocess_data.py
-
-
-
+```bash
+pip install -r requirements.txt
