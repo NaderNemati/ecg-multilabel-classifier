@@ -1,12 +1,23 @@
-# ECG Classification Using Deep Learning
+# ECG Classification using Deep Learning
 
-This repository focuses on ECG classification using deep learning techniques. The original version of this repository can be found [here](original_repository_link). It features the PyTorch implementation of the ResNet model developed by Between_a_ROC_and_a_heart_place. The model was initially designed for the PhysioNet/Computing in Cardiology Challenge 2020 and was presented in the paper titled "Adaptive Lead Weighted ResNet Trained With Different Duration Signals for Classifying 12-lead ECGs," accepted at CinC2020.
-
-This version of the repository has been refactored to support more general analysis and usage.
+This repository contains a refactored version of the original implementation by Between_a_ROC_and_a_heart_place, which was designed for the PhysioNet/Computing in Cardiology Challenge 2020. The related paper was titled "Adaptive Lead Weighted ResNet Trained With Different Duration Signals for Classifying 12-lead ECGs". The original repository can be found [here](original_repository_link).
 
 ## Usage
 
-To get started, install the necessary Python packages using the following command:
+To get started, follow these steps:
 
-```bash
-pip install -r requirements.txt
+1. Install the required Python packages from the `requirements.txt` file:
+
+   ```bash
+   pip install -r requirements.txt
+
+Note: Recommended Python version is 3.10.4 (tested with Python 3.10.4).
+
+
+Data handling: Check out the notebook Introduction to data handling in the notebooks directory for more information on downloading, preprocessing, and splitting data.
+
+Preprocessing: If you want to preprocess data, you can use the preprocess_data.py script. This step is optional but may impact training speed. To preprocess the data, use:
+python preprocess_data.py
+
+
+
