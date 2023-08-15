@@ -16,8 +16,7 @@ pip install -r requirements.txt
 
 Recommended Python version: 3.10.4 (tested with Python 3.10.4).
 
-
-# Data
+## Data
 
 Check out the notebook [Introduction to data handling](/notebooks/1_introduction_data_handling.ipynb) in `/notebooks/` directory for detailed information on downloading, preprocessing, and splitting the data.
 
