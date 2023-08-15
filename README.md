@@ -81,44 +81,39 @@ The predict_smoke.yaml file contains necessary prediction phase arguments in YAM
 # Repository in details
 
 ```
-.
-├── configs
-│   ├── data_splitting
-│   ├── predicting
-│   └── training
-│
-├── data
-│   ├── smoke_data
-│   └── split_csvs
-│
-├── notebooks
-│
-├── src
-│   ├── dataloader
-│   │   ├── __init__.py
-│   │   ├── dataset.py
-│   │   ├── dataset_utils.py
-│   │   └── transforms.py
-│   │
-│   └── modeling
-│       ├── models
-│       │   └── seresnet18.py
-│       ├── __init__.py
-│       ├── metrics.py
-│       ├── predict_utils.py
-│       └── train_utils.py
-│
-├── .gitignore
-├── label_mapping.py
-├── LICENSE
-├── __init__.py
-├── create_data_csvs.py
-├── preprocess_data.py
-├── README.md
-├── requirements.txt
-├── run_model.py
-├── train_model.py
-└── utils.py
+- configs
+    - data_splitting
+    - predicting
+    - training
+- data
+    - smoke_data
+    - split_csvs
+- notebooks
+- src
+    - dataloader
+        - __init__.py
+        - dataset.py
+        - dataset_utils.py
+        - transforms.py
+    - modeling
+        - models
+            - seresnet18.py
+        - __init__.py
+        - metrics.py
+        - predict_utils.py
+        - train_utils.py
+- .gitignore
+- label_mapping.py
+- LICENSE
+- __init__.py
+- create_data_csvs.py
+- preprocess_data.py
+- README.md
+- requirements.txt
+- run_model.py
+- train_model.py
+- utils.py
+
 
 
 
