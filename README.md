@@ -21,12 +21,12 @@ Recommended Python version 3.10.4 (tested with Python 3.10.4).
 
 # Data
 
-Check out the notebook [Introduction to data handling](/notebooks/1_introduction_data_handling.ipynb) in `/notebooks/` for more information on downloading, preprocessing and splitting data.
+Feel free to explore the notebook titled Getting Started with Data Management located within the /notebooks/ directory. This resource provides comprehensive details about data retrieval, preprocessing, and segmentation processes.
 
 
 # In a nutshell
 
-If you want to preprocess data, you can do it with the `preprocess_data.py` script. This is not mandatory for the use of the repository, but keep in mind that if some transforms (e.g. BandPassFilter) are used during the training phase, training might slow down significantly. To preprocess the data, use the following command
+In case you intend to carry out data preprocessing, you have the option to utilize the preprocess_data.py script. Although this step is not obligatory for utilizing the repository, it's important to note that if certain transformations (such as BandPassFilter) are employed during the training phase, the training process could experience notable delays. To initiate data preprocessing, execute the following command:
 
 ```
 python preprocess_data.py
@@ -39,13 +39,13 @@ Consider checking the `configs` directory for yaml configurations:
 
 Two notebooks are available for creating training and testing yaml files based on the data splitting performed with the `create_data_csvs.py` script: [Yaml files of database-wise split for training and testing](/notebooks/2_physionet_DBwise_yaml_files.ipynb) and [Yaml files of stratified split for training and testing](/notebooks/2_physionet_stratified_yaml_files.ipynb). Be sure to perform the data splitting first.
 
-1) To split the data for the model to use in training and testing, you'll need the following command
+1) For splitting the data into training and testing sets for model usage, employ the subsequent command.
 
 ```
 python create_data_csvs.py
 ```
 
-where `create_data_csvs.py` splits the data using either stratified split or database-wise split. On stratified run, `create_data_csvs.py` uses the implementation of `MultilabelStratifiedShuffleSplit` from `iterative-stratification` package. It makes csv files of the data splits which consists of a training set and a validation set. These csv files are later used in the training phase of the model, and have the columns `path` (path for ECG recording in .mat format), `age` , `gender` and all the diagnoses in SNOMED CT codes used as labels in the classification. Csv files of test data are also created. Database-wise split uses the structure of the directory where the data is loaded from.
+Utilizing the create_data_csvs.py script, you can partition the data through either a stratified split approach or a database-wise split method. In the case of stratified division, the script employs the MultilabelStratifiedShuffleSplit function from the iterative-stratification package. This process generates CSV files containing distinct training and validation sets. These CSV files are subsequently employed during the model's training phase, featuring columns such as path (indicating the ECG recording's file path in .mat format), age, gender, and all relevant diagnoses represented by SNOMED CT codes, which serve as labels for classification. Additionally, the script also generates CSV files for the test data. Conversely, the database-wise split strategy leverages the inherent directory structure from which the data is sourced.
 
 The main structure of csv files are as follows:
 
@@ -59,7 +59,7 @@ The main structure of csv files are as follows:
 
 Note! There are attributes to be considered *before* running the script. Check the notebook [Introduction to data handling](/notebooks/1_introduction_data_handling.ipynb) for further instructions. 
 
-2) To train a model, you'll need to use either a yaml file or a directory as an argument and use one of the following commands
+2) In order to initiate model training, you have the option to provide either a yaml file or a directory as an argument, followed by the execution of one of the subsequent commands.
 
 ```
 python train_model.py train_smoke.yaml
@@ -75,7 +75,7 @@ python run_model.py predict_smoke.yaml
 python run_model.py predict_stratified_smoke
 ```
 
-where `predict_smoke.yaml` consists of needed arguments for the prediction phase in a yaml format, and `predict_multiple_smoke` is a directory containing several yaml files. When using multiple yaml files at the same time, each yaml file is loaded and run separately. More detailed information about prediction and evaluation is available in the notebook [Introduction to testing and evaluating models](/notebooks/4_introduction_testing_evaluation.ipynb).
+The train_data.yaml file includes the essential training arguments in YAML format, while the train_multiple_smoke directory encompasses numerous YAML files. When employing multiple YAML files concurrently, each file is loaded and executed individually. For comprehensive training details, you can refer to the accompanying notebook. [Introduction to testing and evaluating models](/notebooks/4_introduction_testing_evaluation.ipynb).
 
 
 # Repository in details
