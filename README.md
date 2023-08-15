@@ -88,7 +88,8 @@ The predict_smoke.yaml file contains necessary prediction phase arguments in YAM
 │   └── training                 # Yaml files considering the training phase
 │   
 ├── data
-│   ├── physionet_data_smoke     # Sample of The Physionet Challenge 2021 data for smoke testing
+│   ├── smoke_data               # Samples from the Physionet 2021 Challenge data as well as
+|   |                              Shandong Provincial Hospital data for smoke testing
 │   └── split_csvs               # Csv files of ECGs, either database-wise or stratified splitted
 │
 ├── notebooks                    # Jupyter notebooks for data exploration and 
@@ -110,15 +111,16 @@ The predict_smoke.yaml file contains necessary prediction phase arguments in YAM
 │                                  and the training loop
 │
 ├── .gitignore
+├── label_mapping.py             # Script to convert other diagnostic codes to SNOMED CT Codes
 ├── LICENSE
 ├── LICENSE.txt
 ├── __init__.py
-├── create_data_split_csvs.py    # Script to perform database-wise data split or 
-│                                  split by the cross-validatior ´Multilabel Stratified ShuffleSplit´ 
-├── preprocess_data_data.py      # Script for preprocessing data
+├── create_data_csvs.py          # Script to perform database-wise data split or split by
+│                                  the cross-validatior ´Multilabel Stratified ShuffleSplit´ 
+├── preprocess_data.py           # Script for preprocessing data
 ├── README.md
 ├── requirements.txt             # The requirements needed to run the repository
-├── test_model.py                # Script to test and evaluate a trained model
+├── run_model.py                # Script to test and evaluate a trained model
 ├── train_model.py               # Script to train a model
 └── utils.py                     # Script for yaml configuration
 
