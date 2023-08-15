@@ -42,7 +42,7 @@ Two notebooks are available for creating training and testing yaml files based o
 1) For splitting the data into training and testing sets for model usage, employ the subsequent command.
 
 ```
-python create_data_csvs.py
+python create_data_split_csvs.py
 ```
 
 Utilizing the create_data_csvs.py script, you can partition the data through either a stratified split approach or a database-wise split method. In the case of stratified division, the script employs the MultilabelStratifiedShuffleSplit function from the iterative-stratification package. This process generates CSV files containing distinct training and validation sets. These CSV files are subsequently employed during the model's training phase, featuring columns such as path (indicating the ECG recording's file path in .mat format), age, gender, and all relevant diagnoses represented by SNOMED CT codes, which serve as labels for classification. Additionally, the script also generates CSV files for the test data. Conversely, the database-wise split strategy leverages the inherent directory structure from which the data is sourced.
