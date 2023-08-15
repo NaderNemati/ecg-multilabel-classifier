@@ -81,39 +81,48 @@ The predict_smoke.yaml file contains necessary prediction phase arguments in YAM
 # Repository in details
 
 ```
-- configs
-    - data_splitting
-    - predicting
-    - training
-- data
-    - smoke_data
-    - split_csvs
-- notebooks
-- src
-    - dataloader
-        - __init__.py
-        - dataset.py
-        - dataset_utils.py
-        - transforms.py
-    - modeling
-        - models
-            - seresnet18.py
-        - __init__.py
-        - metrics.py
-        - predict_utils.py
-        - train_utils.py
-- .gitignore
-- label_mapping.py
-- LICENSE
-- __init__.py
-- create_data_csvs.py
-- preprocess_data.py
-- README.md
-- requirements.txt
-- run_model.py
-- train_model.py
-- utils.py
-
+.
+├── configs                      
+│   ├── data_splitting           # Yaml files considering a database-wise split and a stratified split   
+│   ├── predicting               # Yaml files considering the prediction and evaluation phase
+│   └── training                 # Yaml files considering the training phase
+│   
+├── data
+│   ├── smoke_data               # Samples from the Physionet 2021 Challenge data as well as
+|   |                              Shandong Provincial Hospital data for smoke testing
+│   └── split_csvs               # Csv files of ECGs, either database-wise or stratified splitted
+│
+├── notebooks                    # Jupyter notebooks for data exploration and 
+│                                  information about the use of the repository
+├── src        
+│   ├── dataloader 
+│   │   ├── __init__.py
+│   │   ├── dataset.py           # Script for custom DataLoader for ECG data
+│   │   ├── dataset_utils.py     # Script for preprocessing ECG data
+│   │   └── transforms.py        # Script for tranforms
+│   │
+│   └── modeling 
+│       ├── models               # All model architectures
+│       │   └── seresnet18.py    # PyTorch implementation of the SE-ResNet18 model
+│       ├──__init__.py
+│       ├── metrics.py           # Script for evaluation metrics
+│       ├── predict_utils.py     # Script for making predictions with a trained model
+│       └── train_utils.py       # Setting up optimizer, loss, model, evaluation metrics
+│                                  and the training loop
+│
+├── .gitignore
+├── label_mapping.py             # Script to convert other diagnostic codes to SNOMED CT Codes
+├── LICENSE
+├── LICENSE.txt
+├── __init__.py
+├── create_data_csvs.py          # Script to perform database-wise data split or split by
+│                                  the cross-validatior ´Multilabel Stratified ShuffleSplit´ 
+├── preprocess_data.py           # Script for preprocessing data
+├── README.md
+├── requirements.txt             # The requirements needed to run the repository
+├── run_model.py                # Script to test and evaluate a trained model
+├── train_model.py               # Script to train a model
+└── utils.py                     # Script for yaml configuration
 
 
 
