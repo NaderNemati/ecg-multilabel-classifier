@@ -1,8 +1,8 @@
-# Repository for ECG classification using deep learning 
+# ECG classification using deep learning 
 
-Original version of this repository can be found from [here](https://github.com/ZhaoZhibin/Physionet2020model). It contains the Pytorch implementation of the ResNet model by *Between_a_ROC_and_a_heart_place*. The model was designed for the PhysioNet/Computing in Cardiology Challenge 2020. The related paper was accepted by the CinC2020 and titled
-"[**Adaptive Lead Weighted ResNet Trained With Different Duration Signals for
-Classifying 12-lead ECGs**](https://physionetchallenges.github.io/2020/papers/112.pdf)".
+The original version of this repository is available here. It hosts the PyTorch implementation of the ResNet model created by Between_a_ROC_and_a_heart_place. 
+The model was specifically developed for the PhysioNet/Computing in Cardiology Challenge 2020. The corresponding research paper, titled "Enhanced Lead-Weighted 
+ResNet Utilizing Signals of Variable Durations for Categorizing 12-Lead ECGs," was successfully accepted by CinC2020. For more details, you can refer to the provided link.
 
 This version is refactored for more general analysis.
 
