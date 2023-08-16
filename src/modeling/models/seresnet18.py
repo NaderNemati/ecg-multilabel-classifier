@@ -83,7 +83,7 @@ class ResNet(nn.Module):
      (Zhao et al. 2022)
     '''
 
-    def __init__(self, block, layers, in_channel=1, out_channel=17, zero_init_residual=False):
+    def __init__(self, block, layers, in_channel=1, out_channel=10, zero_init_residual=False):
         super(ResNet, self).__init__()
         self.inplanes = 64
         self.conv1 = nn.Conv1d(in_channel, 64, kernel_size=15, stride=2, padding=7, bias=False)
