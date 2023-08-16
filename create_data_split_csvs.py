@@ -512,26 +512,9 @@ if __name__ == '__main__':
         # The other splits are represented later in comments
         train_test_splits = {
             'split_1': {    
-            'train': ['G12EC', 'SPH', 'PTB_PTBXL', 'ChapmanShaoxing_Ningbo'],
-            'test': 'CPSC_CPSC-Extra'
-            },
-        #    'split_2': {    
-        #    'train': ['G12EC', 'SPH', 'PTB_PTBXL', 'CPSC_CPSC-Extra'],
-        #    'test': 'ChapmanShaoxing_Ningbo'
-        #    },
-        #    'split_3': {    
-        #    'train': ['G12EC', 'SPH', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
-        #    'test': 'PTB_PTBXL'
-        #    },
-        #    'split_4': {    
-        #    'train': ['G12EC', 'PTB_PTBXL', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
-        #    'test': 'SPH'
-        #    },
-        #    'split_5': {    
-        #    'train': ['SPH', 'PTB_PTBXL', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
-        #    'test': 'G12EC'
-        #},
-        
+            'train': ['G12EC','CPSC_CPSC-Extra', 'PTB_PTBXL', 'SPH'],
+            'test': 'ChapmanShaoxing_Ningbo'
+            }
         }
 
         # Perform stratified data split
@@ -557,23 +540,23 @@ if __name__ == '__main__':
     # (you can use these by just adding them to the 'train_test_splits' dictionary)
     # ----------------------------------------
     #'split_1': {    
-    #        'train': ['G12EC', 'INCART', 'PTB_PTBXL', 'ChapmanShaoxing_Ningbo'],
-    #        'test': 'CPSC_CPSC-Extra'
-    #    },
-    # 'split_2': {    
-    #        'train': ['G12EC', 'INCART', 'PTB_PTBXL', 'CPSC_CPSC-Extra'],
-    #        'test': 'ChapmanShaoxing_Ningbo'
-    #    },
-    # 'split_3': {    
-    #        'train': ['G12EC', 'INCART', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
-    #        'test': 'PTB_PTBXL'
-    #    },
-    # 'split_4': {    
-    #        'train': ['G12EC', 'PTB_PTBXL', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
-    #        'test': 'INCART'
-    #    },
-    # 'split_5': {    
-    #        'train': ['INCART', 'PTB_PTBXL', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
-    #        'test': 'G12EC'
-    #    },
+    #'train': ['G12EC','CPSC_CPSC-Extra', 'PTB_PTBXL', 'SPH'],
+    #'test': 'ChapmanShaoxing_Ningbo'
+    #},
+    #'split_2': {    
+    #'train': ['G12EC', 'SPH', 'PTB_PTBXL', 'ChapmanShaoxing_Ningbo'],
+    #'test': 'CPSC_CPSC-Extra'
+    #},
+    #'split_3': {    
+    #'train': ['G12EC', 'SPH', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
+    #'test': 'PTB_PTBXL'
+    #},
+    #'split_4': {    
+    #'train': ['G12EC', 'PTB_PTBXL', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
+    #'test': 'SPH'
+    #},
+    #'split_5': {    
+    #'train': ['SPH', 'PTB_PTBXL', 'CPSC_CPSC-Extra', 'ChapmanShaoxing_Ningbo'],
+    #'test': 'G12EC'
+    #},,
     # ----------------------------------------
