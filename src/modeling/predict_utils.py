@@ -6,7 +6,7 @@ from torch import nn
 import pandas as pd
 from torch.utils.data import DataLoader
 from .models.seresnet18 import resnet18
-from ..dataloader.dataset import ECGDatasetVal, ECGDatasetAug, get_transforms
+from ..dataloader.dataset import ECGDatasetVal, get_transforms
 from .metrics import cal_multilabel_metrics, roc_curves
 import pickle
 
