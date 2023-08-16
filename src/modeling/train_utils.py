@@ -7,7 +7,7 @@ from torch import nn
 from torch import optim
 from torch.utils.data import DataLoader
 from .models.seresnet18 import resnet18
-from ..dataloader.dataset import ECGDatasetAug, ECGDatasetVal, get_transforms
+from ..dataloader.dataset import ECGDatasetAug, ECGDatasetVal,  get_transforms
 from .metrics import cal_multilabel_metrics, roc_curves
 import pickle
 
@@ -32,7 +32,7 @@ class Training(object):
             print('using {} cpu'.format(self.device_count))
 
         # Load the datasets       
-        training_set = ECGDatasetAug(self.args.train_path, get_transforms('train'), get_transforms('augment')) 
+        training_set = ECGDatasetAug(self.args.train_path, get_transforms('train'), get_transforms('augment'))
         validation_set = ECGDatasetVal(self.args.val_path, get_transforms('val')) 
         channels = training_set.channels
         self.validation_files = validation_set.data
@@ -212,16 +212,16 @@ class Training(object):
             history['val_macro_avg_prec'].append(val_macro_avg_prec)
             history['val_challenge_metric'].append(val_challenge_metric)
 
-            # Save model at every 5th epoch
+            # Save a model at every 5th epoch
             if epoch in list(range(self.args.epochs)[0::5]):
                 print('Saved model at the epoch {}!'.format(epoch))
                 # Whether or not you use data parallelism, save the state dictionary this way
                 # to have the flexibility to load the model any way you want to any device you want
                 model_state_dict = self.model.module.state_dict() if self.device_count > 1 else self.model.state_dict()
-
+                    
                 # -- Save model
                 model_savepath = os.path.join(self.args.model_save_dir,
-                                      self.args.yaml_file_name + '_e' + str(epoch) + '.pth')
+                                              self.args.yaml_file_name + '_e' + str(epoch) + '.pth')
                 torch.save(model_state_dict, model_savepath)
             
             
@@ -236,7 +236,7 @@ class Training(object):
                     
                 # -- Save model
                 model_savepath = os.path.join(self.args.model_save_dir,
-                                              self.args.yaml_file_name + '_e' + str(epoch) + '.pth')
+                                              self.args.yaml_file_name + '.pth')
                 torch.save(model_state_dict, model_savepath)
                 
                 # -- Save history
