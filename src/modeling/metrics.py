@@ -334,3 +334,4 @@ if __name__ == '__main__':
     labels = ['164889003', '164890007', '6374002', '733534002']
 
     cal_multilabel_metrics(y_actual, y_prob, labels, threshold=0.5)
+ 
