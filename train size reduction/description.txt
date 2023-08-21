@@ -1,1 +1,33 @@
+The goal is to create subsets of these CSV files with reduced numbers of rows while maintaining a stratified sampling approach. Each CSV file represents a dataset partitioned into "train" and "test" segments. The code carries out the following steps in detail:
 
+    Import Libraries and Set Up Paths:
+        The code begins by importing the necessary libraries, including os, pandas, random, and shutil.
+        The current working directory is determined using os.getcwd().
+
+    Specify Source Directory and Full Paths:
+        A relative path to the directory containing CSV files ('data/split_csvs/physionet_stratified_mini') is stored in from_directory.
+        The complete path to the source directory is derived by joining the current working directory and the relative path.
+
+    List CSV Files to Process:
+        A list named csv_files is created to store the names of CSV files within the source directory that start with "train" and have the ".csv" extension.
+
+    Define Reduction Percentages:
+        A list named percentages contains the desired reduction percentages (0.5, 0.25, 0.125, and 0.0675) for creating subsets of the CSV files.
+
+    Process Each "train" CSV File:
+        For each CSV file name in csv_files, the code performs the following steps:
+            Reads the CSV file into a Pandas DataFrame (df).
+            Loops through each desired reduction percentage (p) in the list of the percentage:
+                Calculates the desired number of remaining rows based on the reduction percentage.
+                Creates a list of row indices.
+                Shuffles the list of indices randomly.
+                Drops rows from the DataFrame until the desired remaining rows are achieved.
+                Resets the DataFrame index.
+                Creates a subfolder within the source directory to store the modified CSV files.
+                Writes the modified DataFrame back to a new CSV file inside the subfolder.
+                Copies the corresponding "test" CSV files to the subfolder.
+
+    Completion Message:
+        After all processing is complete, the script prints "Done!" to indicate the successful completion of the data reduction and modification.
+
+All in all, this code snippet takes a collection of "train" and "test" CSV files, creates subsets of these files with varying row reduction percentages, maintains a stratified sampling approach, and organizes the resulting modified files into separate subfolders based on the reduction percentages. The code is designed to facilitate efficient data reduction while ensuring that the integrity of the data's distribution is preserved.
