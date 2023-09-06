@@ -135,6 +135,22 @@ class Roll(object):
             mseq[i,:] = np.roll(row, sign*n)
         return mseq
 
+class Roll_signal(object):
+    def __init__(self, offset=90, p = 1):
+        self.offset = offset
+        self.roll_p =p
+
+    def __call__(self, mseq):
+        if self.roll_p < np.random.rand(1):
+            return mseq
+        seq = mseq[1,:].ravel()
+        _, info = nk.ecg_peaks(seq, method="kalidas2017")
+        peaks = info["ECG_R_Peaks"]
+        first_peak_location = peaks[0]
+
+        for i, row in enumerate(mseq):
+            mseq[i,:] = np.roll(row, first_peak_location)
+        return mseq
 
 class Flipy(object):
 
