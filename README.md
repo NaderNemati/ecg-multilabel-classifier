@@ -1,10 +1,27 @@
-# ECG classification using deep learning 
-
-The original version of this repository is available here. It hosts the PyTorch implementation of the ResNet model created by Between_a_ROC_and_a_heart_place. 
-The model was specifically developed for the PhysioNet/Computing in Cardiology Challenge 2020. The corresponding research paper, titled "Enhanced Lead-Weighted 
-ResNet Utilizing Signals of Variable Durations for Categorizing 12-Lead ECGs," was successfully accepted by CinC2020. For more details, you can refer to the provided link.
-
+# ECG Classification using Deep Learning (SE-ResNet18 + Augmentations)
+This repository provides a PyTorch pipeline for multi-label classification of 12-lead ECGs using a 1-D SE-ResNet18 backbone plus time-domain data augmentations.
+It is refactored from a PhysioNet/CinC 2020 entry and updated for broader, source-aware analysis across multiple datasets.
 This version is refactored for more general analysis.
+
+Challenge background: PhysioNet/CinC 2020/2021 ECG classification challenges. 
+
+SE blocks: Squeeze-and-Excitation Networks (Hu et al., CVPR 2018).
+
+# What’s included
+
+1-End-to-end training & evaluation for multi-label ECG diagnosis (14–17 classes depending on config).
+
+2-Source-aware 5-fold stratified protocol that preserves per-class prevalence and label co-occurrence.
+
+3-SE-ResNet18 (1-D) with demographics fusion (age, sex).
+
+4-Augmentations: Multiply–Triangle scaling (proposed), random crop/jitter, optional light noise, optional lead dropout.
+
+5-Metrics: AUROC/AP (micro & macro) and optional PhysioNet/CinC score.
+
+6-Label mapping utilities to convert non-SNOMED labels to SNOMED CT.
+
+
 
 
 
