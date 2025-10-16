@@ -1,53 +1,83 @@
-# ECG Classification using Deep Learning (SE-ResNet18 + Augmentations)
-This repository provides a PyTorch pipeline for multi-label classification of 12-lead ECGs using a 1-D SE-ResNet18 backbone plus time-domain data augmentations.
-It is refactored from a PhysioNet/CinC 2020 entry and updated for broader, source-aware analysis across multiple datasets.
-This version is refactored for more general analysis.
+# ECG Classification with 1-D SE-ResNet-18 & Robust Augmentations
+A clean PyTorch pipeline for multi-label classification of 12-lead ECGs using a 1-D SE-ResNet-18 backbone with time-domain augmentations.
+Originally inspired by PhysioNet/CinC Challenge entries, this refactor generalizes to source-aware analyses across multiple datasets and provides reproducible training, validation, and evaluation utilities.
 
-Challenge background: PhysioNet/CinC 2020/2021 ECG classification challenges. 
+Challenge background: PhysioNet/CinC 2020/2021 ECG classification. 
 
-SE blocks: Squeeze-and-Excitation Networks (Hu et al., CVPR 2018).
+SE blocks: Squeeze-and-Excitation Networks (Hu et al.). 
 
-# What’s included
+Labeling: SNOMED CT mapping utilities. 
 
-1-End-to-end training & evaluation for multi-label ECG diagnosis (14–17 classes depending on config).
+Stratification: Multi-label iterative stratification for fair splits. 
 
-2-Source-aware 5-fold stratified protocol that preserves per-class prevalence and label co-occurrence.
+# What’s Inside
 
-3-SE-ResNet18 (1-D) with demographics fusion (age, sex).
+1-End-to-end training & evaluation for multi-label ECG diagnosis (14–17 classes, configurable).
 
-4-Augmentations: Multiply–Triangle scaling (proposed), random crop/jitter, optional light noise, optional lead dropout.
+2-Source-aware 5-fold stratified protocol preserving per-class prevalence and label co-occurrence.
 
-5-Metrics: AUROC/AP (micro & macro) and optional PhysioNet/CinC score.
+3-1-D SE-ResNet-18 with optional demographics fusion (age, sex).
 
-6-Label mapping utilities to convert non-SNOMED labels to SNOMED CT.
+4-Augmentations: Multiply–Triangle (scaling), random crop/jitter, optional light noise, optional lead dropout.
+
+5-Metrics: AUROC/AP (micro & macro) + optional PhysioNet/CinC score for compatibility. 
+
+6-Label mapping utilities for converting non-SNOMED labels → SNOMED CT.
 
 
 
 
 
-# Usage
+# Quick Start
 
 Install the required pip packages from `requirements.txt` file using the following command:
 
 ```
 pip install -r requirements.txt
 ```
+Tested Python: 3.10.4
 
-Recommended Python version 3.10.4 (tested with Python 3.10.4).
+Major deps: torch, numpy, scipy, pandas, scikit-learn, torchmetrics, iterative-stratification (for multilabel stratified splits). 
+PyPI
+
+Tip: For reproducibility, pin your CUDA-compatible PyTorch build if using GPU.
+
 
 
 # Data
 
-Feel free to explore the notebook titled Getting Started with Data Management located within the /notebooks/ directory. This resource provides comprehensive details about data retrieval, preprocessing, and segmentation processes.
-
+See /notebooks/1_introduction_data_handling.ipynb for data access, preprocessing, and segmentation.
+This repo is designed to work with consolidated 12-lead ECG corpora (e.g., PhysioNet/CinC Challenge datasets). Always follow dataset licenses and access policies.
 
 # In a nutshell
 
 In case you intend to carry out data preprocessing, you have the option to utilize the preprocess_data.py script. Although this step is not obligatory for utilizing the repository, it's important to note that if certain transformations (such as BandPassFilter) are employed during the training phase, the training process could experience notable delays. To initiate data preprocessing, execute the following command:
 
+
+# CSV Format
+
+
+Utilizing the create_data_csvs.py script, you can partition the data through either a stratified split approach or a database-wise split method. In the case of stratified division, the script employs the MultilabelStratifiedShuffleSplit function from the iterative-stratification package. This process generates CSV files containing distinct training and validation sets. These CSV files are subsequently employed during the model's training phase, featuring columns such as path (indicating the ECG recording's file path in .mat format), age, gender, and all relevant diagnoses represented by SNOMED CT codes, which serve as labels for classification. Additionally, the script also generates CSV files for the test data. Conversely, the database-wise split strategy leverages the inherent directory structure from which the data is sourced.
+
+
+The pipeline expects split CSVs with demographics and SNOMED-coded labels:
+
+| path               | age | gender | 10370003 | 111975006 | 164890007 |  … |
+| ------------------ | --: | ------ | -------: | --------: | --------: | -: |
+| `./Data/A0002.mat` |  49 | Female |        0 |         0 |         1 |  … |
+| `./Data/A0003.mat` |  81 | Female |        0 |         1 |         1 |  … |
+| `./Data/A0004.mat` |  45 | Male   |        1 |         0 |         0 |  … |
+
+SNOMED CT is a comprehensive clinical terminology used for robust, interoperable labeling.
+
+
+# In a Nutshell
+
+
 ```
 python preprocess_data.py
 ```
+Note: If you use heavy transforms (e.g., band-pass filtering) during training, expect slower epochs.
 
 Consider checking the `configs` directory for yaml configurations:
 
@@ -62,17 +92,12 @@ Two notebooks are available for creating training and testing yaml files based o
 python create_data_split_csvs.py
 ```
 
-Utilizing the create_data_csvs.py script, you can partition the data through either a stratified split approach or a database-wise split method. In the case of stratified division, the script employs the MultilabelStratifiedShuffleSplit function from the iterative-stratification package. This process generates CSV files containing distinct training and validation sets. These CSV files are subsequently employed during the model's training phase, featuring columns such as path (indicating the ECG recording's file path in .mat format), age, gender, and all relevant diagnoses represented by SNOMED CT codes, which serve as labels for classification. Additionally, the script also generates CSV files for the test data. Conversely, the database-wise split strategy leverages the inherent directory structure from which the data is sourced.
-
-The main structure of csv files are as follows:
+Stratified split uses MultilabelStratifiedShuffleSplit to preserve label co-occurrence.
 
 
-| path  | age  | gender  | 10370003  | 111975006 | 164890007 | *other diagnoses...* |
-| ------------- |-------------|-------------| ------------- |-------------|-------------|-------------|
-| ./Data/A0002.mat | 49.0 | Female | 0 | 0 | 1 | ... |
-| ./Data/A0003.mat | 81.0 | Female | 0 | 1 | 1 | ... |
-| ./Data/A0004.mat | 45.0 |  Male  | 1 | 0 | 0 | ... |
-| ... | ... |  ...  | ... | ... | ... | ... |
+Learn more in /notebooks/2_physionet_DBwise_yaml_files.ipynb and /notebooks/2_physionet_stratified_yaml_files.ipynb.
+Background on multilabel iterative stratification: PyPI and original implementations.
+
 
 Note! There are attributes to be considered *before* running the script. Check the notebook [Introduction to data handling](/notebooks/1_introduction_data_handling.ipynb) for further instructions. 
 
@@ -83,62 +108,126 @@ python train_model.py train_smoke.yaml
 python train_model.py train_stratified_smoke
 ```
 
-where `train_data.yaml` consists of needed arguments for the training in a yaml format, and `train_multiple_smoke` is a directory containing several yaml files. When using multiple yaml files at the same time, each yaml file is loaded and run separately. More detailed information about training is available in the notebook [Introduction to training models](/notebooks/3_introduction_training.ipynb).
+# Configure
 
-3) To test and evaluate a trained model, you'll need one of the following commands
+Check the configs/ directory:
 
 ```
+configs/training/*.yaml → training configs
+
+configs/predicting/*.yaml → evaluation configs
+```
+
+# Train
+
+Pass a single YAML file or a directory of YAMLs:
+
+```
+# Single config
+python train_model.py train_smoke.yaml
+
+# Directory (runs each YAML separately)
+python train_model.py train_stratified_smoke
+```
+See /notebooks/3_introduction_training.ipynb for details.
+
+# Evaluate / Predict
+
+```
+# Single config
 python run_model.py predict_smoke.yaml
+
+# Directory of configs
 python run_model.py predict_stratified_smoke
 ```
 
-The train_data.yaml file includes the essential training arguments in YAML format, while the train_multiple_smoke directory encompasses numerous YAML files. When employing multiple YAML files concurrently, each file is loaded and executed individually. For comprehensive training details, you can refer to the accompanying notebook. [Introduction to testing and evaluating models](/notebooks/4_introduction_testing_evaluation.ipynb).
+See /notebooks/4_introduction_testing_evaluation.ipynb.
+
+# Model & Augmentations
+
+## 1-D SE-ResNet-18
 
 
-# Repository in details
+1-Residual blocks operate along time, producing lead-wise feature maps.
+
+2-Each block integrates a Squeeze-and-Excitation (SE) module (global temporal pooling + channel re-weighting) prior to the skip addition. 
+
+3-Optional demographics fusion (age, sex) concatenated to pooled features before the classification head.
+
+4-Output head uses independent sigmoids (one per class) with class-weighted BCE for imbalance.
+
+## Augmentations
+
+1-Multiply–Triangle scaling (proposed): piecewise amplitude scaling to strengthen robustness.
+
+Random crop
+
+Optional light noise
+
+Optional lead dropout
+.
+.
+.
+**Sinuside Time-Amplitude Resampling**
+
+All augmentations are configurable via YAMLs. Keep evaluation strictly augmentation-free.
+
+## Metrics
+
+1-AUROC (micro & macro), Average Precision (micro & macro) via torchmetrics/sklearn.
+
+# Project Structure
+
 
 ```
 .
-├── configs                      
-│   ├── data_splitting           # Yaml files considering a database-wise split and a stratified split   
-│   ├── predicting               # Yaml files considering the prediction and evaluation phase
-│   └── training                 # Yaml files considering the training phase
-│   
+├── configs
+│   ├── data_splitting/      # DB-wise and stratified split YAMLs
+│   ├── predicting/          # Evaluation/prediction YAMLs
+│   └── training/            # Training YAMLs
+│
 ├── data
-│   ├── smoke_data               # Samples from the Physionet 2021 Challenge data as well as
-|   |                              Shandong Provincial Hospital data for smoke testing
-│   └── split_csvs               # Csv files of ECGs, either database-wise or stratified splitted
+│   ├── smoke_data/          # Sample ECGs for smoke testing
+│   └── split_csvs/          # Output CSVs from splitting scripts
 │
-├── notebooks                    # Jupyter notebooks for data exploration and 
-│                                  information about the use of the repository
-├── src        
-│   ├── dataloader 
-│   │   ├── __init__.py
-│   │   ├── dataset.py           # Script for custom DataLoader for ECG data
-│   │   ├── dataset_utils.py     # Script for preprocessing ECG data
-│   │   └── transforms.py        # Script for tranforms
-│   │
-│   └── modeling 
-│       ├── models               # All model architectures
-│       │   └── seresnet18.py    # PyTorch implementation of the SE-ResNet18 model
-│       ├──__init__.py
-│       ├── metrics.py           # Script for evaluation metrics
-│       ├── predict_utils.py     # Script for making predictions with a trained model
-│       └── train_utils.py       # Setting up optimizer, loss, model, evaluation metrics
-│                                  and the training loop
+├── notebooks/               # EDA + “how to use” notebooks
 │
-├── .gitignore
-├── label_mapping.py             # Script to convert other diagnostic codes to SNOMED CT Codes
-├── LICENSE
-├── LICENSE.txt
-├── __init__.py
-├── create_data_csvs.py          # Script to perform database-wise data split or split by
-│                                  the cross-validatior ´Multilabel Stratified ShuffleSplit´ 
-├── preprocess_data.py           # Script for preprocessing data
-├── README.md
-├── requirements.txt             # The requirements needed to run the repository
-├── run_model.py                # Script to test and evaluate a trained model
-├── train_model.py               # Script to train a model
-└── utils.py                     # Script for yaml configuration
+├── src
+│   ├── dataloader/
+│   │   ├── dataset.py       # ECG Dataset / DataLoader
+│   │   ├── dataset_utils.py # Preprocessing helpers
+│   │   └── transforms.py    # Time-domain transforms
+│   └── modeling/
+│       ├── models/
+│       │   └── seresnet18.py    # 1-D SE-ResNet-18
+│       ├── metrics.py           # AUROC/AP, optional CinC score
+│       ├── predict_utils.py     # Inference helpers
+│       └── train_utils.py       # Optimizer, loss, loop, callbacks
+│
+├── label_mapping.py         # Map dataset labels → SNOMED CT
+├── create_data_split_csvs.py# Build stratified / DB-wise CSV splits
+├── preprocess_data.py       # Optional preprocessing
+├── run_model.py             # Evaluate / test
+├── train_model.py           # Train
+├── utils.py                 # YAML & misc utilities
+├── requirements.txt
+├── LICENSE / LICENSE.txt
+└── README.md
+
 
 ```
+
+# Reproducibility Tips
+
+1-Fix random seeds (data loader, torch, numpy).
+
+2-Log versions of all dependencies.
+
+3-Prefer deterministic ops when feasible.
+
+4-Keep source-aware splits to avoid leakage across sites.
+
+
+
+
+
