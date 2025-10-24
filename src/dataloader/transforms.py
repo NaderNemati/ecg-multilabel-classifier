@@ -9,6 +9,9 @@ import sys
 import copy
 import neurokit2 as nk
 import math
+import numpy as np
+from scipy import interpolate
+
 # Data is expected to be in [channels, samples]
 # Notes: some methods apply randomly to channels and some same for all channels
 # randomization ranges not carefully checked
@@ -118,6 +121,51 @@ class AddNoise(object):
         sigma = np.random.uniform(0,self.sigma)
         mseq = mseq + np.random.normal(loc=0, scale=sigma, size=mseq.shape)
         return mseq
+
+class STAR(object):
+    def __init__(self, scale=1.2, p=1, w=4096):
+        self.scale = scale
+        self.p = p
+        self.w = w
+
+    def __call__(self, signal):
+        signal = np.copy(signal)
+        if self.p < np.random.rand(1):
+            return signal
+        original_length = signal.shape[1]
+        new_length = int(original_length * self.scale)
+        x_orig = np.linspace(0, original_length - 1, original_length)
+
+        # Generate a non-linearly spaced array for x
+        x_new = np.linspace(0, 1, new_length)
+        # Updated line
+        x_new = np.power(x_new, self.scale)
+        x_new *= (original_length - 1)
+
+        signal = np.flip(signal)
+
+        # Initialize signal_resampled and assign shape
+        signal_resampled = np.zeros((signal.shape[0], new_length))
+
+        for i, row in enumerate(signal):
+            interpolator = interpolate.interp1d(x_orig, row)
+            signal_resampled[i, :] = interpolator(x_new)
+
+        # Reverse the order of the resampled signal
+        signal_resampled = np.flip(signal_resampled)
+
+        # Truncate or pad the signal_resampled array
+        if signal_resampled.shape[1] > self.w:
+            signal_resampled = signal_resampled[:, :self.w]
+        elif signal_resampled.shape[1] < self.w:
+            padded_signal = np.zeros((signal_resampled.shape[0], self.w))
+            padded_signal[:, :signal_resampled.shape[1]] = signal_resampled
+            signal_resampled = padded_signal
+
+        return signal_resampled
+
+
+
 
 
 class Roll(object):
@@ -339,57 +387,6 @@ class ValClip(object):
             zeros_padding = np.zeros(shape=(seq.shape[0], self.w - seq.shape[1]), dtype=np.float32)
             seq = np.hstack((seq, zeros_padding))
         return seq
-
-
-
-import numpy as np
-from scipy import interpolate
-
-class ResampleLinearAlign1stPeak(object):
-    def __init__(self, scale=1.2, p=1, w=4096):
-        self.scale = scale
-        self.p = p
-        self.w = w
-
-    def __call__(self, signal):
-        signal = np.copy(signal)
-        if self.p < np.random.rand(1):
-            return signal
-        original_length = signal.shape[1]
-        new_length = int(original_length * self.scale)
-        x_orig = np.linspace(0, original_length - 1, original_length)
-
-        # Generate a non-linearly spaced array for x
-        x_new = np.linspace(0, 1, new_length)
-        # Updated line
-        x_new = np.power(x_new, self.scale)
-        x_new *= (original_length - 1)
-
-        signal = np.flip(signal)
-
-        # Initialize signal_resampled and assign shape
-        signal_resampled = np.zeros((signal.shape[0], new_length))
-
-        for i, row in enumerate(signal):
-            interpolator = interpolate.interp1d(x_orig, row)
-            signal_resampled[i, :] = interpolator(x_new)
-
-        # Reverse the order of the resampled signal
-        signal_resampled = np.flip(signal_resampled)
-
-        # Truncate or pad the signal_resampled array
-        if signal_resampled.shape[1] > self.w:
-            signal_resampled = signal_resampled[:, :self.w]
-        elif signal_resampled.shape[1] < self.w:
-            padded_signal = np.zeros((signal_resampled.shape[0], self.w))
-            padded_signal[:, :signal_resampled.shape[1]] = signal_resampled
-            signal_resampled = padded_signal
-
-        return signal_resampled
-
-
-
-
 
 
 
